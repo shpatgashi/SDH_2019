@@ -80,5 +80,53 @@ namespace SulmimiKoditCezaritFrekuenca
             }
             return plaintext.ToString();
         }
+        private int getKey(string text, int count)
+        {
+            int key = 0;
+            char[] frequency = { 'E', 'T', 'A', 'O', 'I', 'N', 'S', 'R', 'H', 'L', 'D', 'C', 'U', 'M', 'F', 'G', 'P', 'W', 'Y', 'B', 'V', 'K', 'J', 'X', 'Z', 'Q' };
+
+            int[] c = new int[(int)char.MaxValue];
+
+
+            foreach(char a in text)
+            {
+                if(a>= 65 && a <= 90)
+                {
+
+                    c[(int)a]++;
+                }
+                    
+            }
+
+            int maxValue = c.Max();
+            for(int i = 0; i < c.Length; i++)
+            {
+                if(c[i] == maxValue)
+                {
+                    key = i;
+                    break;
+                }
+            }
+ 
+
+            return((26+key- frequency[count%26])%26);
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            txtPlaintext.Text = null;
+            counter = 0;
+
+        }
+
+        private void txtCiphertext_TextChanged(object sender, EventArgs e)
+        {
+            txtCiphertext.ScrollBars = ScrollBars.Vertical;
+        }
+
+        private void txtPlaintext_TextChanged(object sender, EventArgs e)
+        {
+            txtPlaintext.ScrollBars = ScrollBars.Vertical;
+        }
     }
 }
