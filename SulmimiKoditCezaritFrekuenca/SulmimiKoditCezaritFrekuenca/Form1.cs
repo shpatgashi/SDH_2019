@@ -38,11 +38,47 @@ namespace SulmimiKoditCezaritFrekuenca
             }
             if (File.Exists(filePath))
             {
-                using (StreamReader st = new StreamReader(filePath))
+                using (StreamReader sr = new StreamReader(filePath))
                 {
-                    txtCiphertext.Text = StreamReader.ReadToEnd();
+                    txtCiphertext.Text = sr.ReadToEnd();
                 }
             }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            string plaintext = txtPlaintext.Text;
+            SaveFileDialog sfd = new SaveFileDialog();
+            if(sfd.ShowDialog() == DialogResult.OK)
+            {
+                string path = sfd.FileName;
+                StreamWriter sw = new StreamWriter(File.Create(path));
+                sw.Write(plaintext);
+                sw.Dispose();
+
+            }
+        }
+
+        private String Dekripto(string ciphertext, int celesi)
+        {
+            StringBuilder plaintext = new StringBuilder(ciphertext);
+
+            for (int i = 0; i < ciphertext.Length; i++)
+            {
+                char chA = ciphertext[i];
+                if(chA >= 'A' && chA <= 'Z')
+                {
+                    int pozita = (chA - 'A');
+
+                    pozita = (26 + pozita - celesi) % 26;
+                    char encchA;
+                    encchA = (char)((pozita + 'A'));
+
+                    plaintext[i] = encchA;
+
+                }
+            }
+            return plaintext.ToString();
         }
     }
 }
